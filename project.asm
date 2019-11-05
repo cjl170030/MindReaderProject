@@ -2,6 +2,8 @@
 	
 	guess_int: .word 0
 	
+	card_int: .word 0
+	
 	shown_arr: .word 0, 0, 0, 0, 0, 0
 	
 	display_arr: .word 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
