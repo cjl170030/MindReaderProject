@@ -32,19 +32,22 @@
 
 MAIN:
 
-DISPLAY1:
+#Randomly select a card 'n' without displaying the same card twice, utilizing card_int and shown_arr
+RANDOMIZE:
 
-DISPLAY2:
+#Generate and store the values of card 'n' in the display_arr
+GENERATE:
 
-DISPLAY3:
+#Print display_arr
+SHOW_CARD:
 
-DISPLAY4:
+#Prompt the user to determine if their number is on card 'n'. Update guess value
+UPDATE:
 
-DISPLAY5:
-
-DISPLAY6:
 
 EXIT:
+
+
 
 
 
