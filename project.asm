@@ -2,7 +2,13 @@
 	
 	guess_int: .word 0
 	
-	card_int: .word 0
+	card_int: .word 2
+	
+	count_int: .word 0
+	
+	shown_index: .word 0
+	
+	display_index: .word 0
 	
 	shown_arr: .word 0, 0, 0, 0, 0, 0
 	
@@ -39,17 +45,47 @@ RANDOMIZE:
 
 #Generate and store the values of card 'n' in the display_arr
 GENERATE:
+	lw $t0, count_int
+	beq $t0, 64, CLEAR_GENERATE_DATA
+	lw $t1, card_int
+	and $t2, $t0, $t1
+	add $a0, $t0, $zero
+	bne $t2, $zero, UPDATE_DISPLAY_ARR
+	addi $t0, $t0, 1
+	sw $t0, count_int
+	j GENERATE
+	
+UPDATE_DISPLAY_ARR:
+	la $t0, display_arr
+	lw $t1, display_index
+	add $t0, $t0, $t1
+	lw $t2, ($t0)
+	bne $t2, 0, UPDATE_DISPLAY_INDEX
+	sw $a0, ($t0)
+	addi $a0, $a0, 1
+	sw $a0, count_int
+	j GENERATE
+
+UPDATE_DISPLAY_INDEX:
+	lw $t1, display_index
+	addi $t1, $t1, 4
+	sw $t1, display_index
+	j UPDATE_DISPLAY_ARR
+
+CLEAR_GENERATE_DATA:
+	sw $zero, display_index
+	sw $zero, count_int
+	j SHOW_CARD
 
 #Print display_arr
 SHOW_CARD:
 
 #Prompt the user to determine if their number is on card 'n'. Update guess value
-UPDATE:
+UPDATE_GUESS:
 
 
 EXIT:
 
-
-
-
+li $a0, 10
+syscall
 
