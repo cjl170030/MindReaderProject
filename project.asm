@@ -1,18 +1,18 @@
 .data
 	
-	guess_int: .word 0
+	guess_int: .word 0 #accumulator variable that stores the guess
 	
-	card_int: .word 2
+	card_int: .word 2 #stores the card number
 	
-	count_int: .word 0
+	count_int: .word 0 #count variable to control loops
 	
-	shown_index: .word 0
+	shown_index: .word 0 #stores the current index of the shown array
 	
-	display_index: .word 0
+	display_index: .word 0 #stores the current index of the display array
 	
-	shown_arr: .word 0, 0, 0, 0, 0, 0
+	shown_arr: .word 0, 0, 0, 0, 0, 0 #stores the card numbers that have already been displayed
 	
-	display_arr: .word 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	display_arr: .word 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 #stores the values that exist on the card 'n'
 	
 	prompt1: .asciiz "Think of a number between 1 and 63. Six cards will be displayed. After the last one, your number will be revealed. Enter 1 to start, or 0 to exit: "
 	
@@ -43,7 +43,7 @@ MAIN:
 #Randomly select a card 'n' without displaying the same card twice, utilizing card_int and shown_arr
 RANDOMIZE:
 
-#Generate and store the values of card 'n' in the display_arr
+#Generates the values of card 'n'
 GENERATE:
 	lw $t0, count_int
 	beq $t0, 64, CLEAR_GENERATE_DATA
@@ -54,7 +54,8 @@ GENERATE:
 	addi $t0, $t0, 1
 	sw $t0, count_int
 	j GENERATE
-	
+
+#Stores the values of card 'n' into display_arr
 UPDATE_DISPLAY_ARR:
 	la $t0, display_arr
 	lw $t1, display_index
@@ -66,12 +67,14 @@ UPDATE_DISPLAY_ARR:
 	sw $a0, count_int
 	j GENERATE
 
+#Increments display_index by 1
 UPDATE_DISPLAY_INDEX:
 	lw $t1, display_index
 	addi $t1, $t1, 4
 	sw $t1, display_index
 	j UPDATE_DISPLAY_ARR
-
+	
+#Sets display_index and count_int back to 0
 CLEAR_GENERATE_DATA:
 	sw $zero, display_index
 	sw $zero, count_int
