@@ -95,7 +95,20 @@ SHOW_CARD:
 	
 #Prompt the user to determine if their number is on card 'n'. Update guess value
 UPDATE_GUESS:
-
+	li $v0, 4						#print prompt2
+	la $a0, prompt2
+	syscall
+	li $v0, 5						#get user input
+	syscall
+	beq $v0, $zero, RANDOMIZE		#if input 0 go to randomize label if 1 continue
+	lw $t0, card_int				#get curent card number
+	addi $t0, $t0, -1				#get current index
+	sll $t0, $t0, 2					#calculate the memory address of value in array(multiply by 4)
+	lw $t0, card_worth_arr($t0)		#load the value from array
+	lw $t1, guess_int				#get current value of guess_int
+	add $t0, $t0, $t1				#add up the guess value and current card value
+	sw $t0, guess_int				#store result back to 
+	j RANDOMIZE						#jump back to RANDOMIZE label
 
 EXIT:
 
