@@ -107,7 +107,7 @@ UPDATE_GUESS:
 	lw $t0, card_worth_arr($t0)		#load the value from array
 	lw $t1, guess_int			#get current value of guess_int
 	add $t0, $t0, $t1			#add up the guess value and current card value
-	sw $t0, guess_int			#store result back to 
+	sw $t0, guess_int			#store result back to guess_int
 	j RANDOMIZE				#jump back to RANDOMIZE label
 
 EXIT:
