@@ -46,7 +46,7 @@
 		
 	newLine: .asciiz "\n"
 	
-	exception: .asciiz "\nThe input was wrong!"
+	exception: .asciiz "The input was wrong!"
 
 .text
 .globl MAIN
@@ -251,12 +251,16 @@ LOOP:
 	
 #Prompt the user to determine if their number is on card 'n'. Update guess value
 UPDATE_GUESS:
+	# check if value is 0 or 1
 	li $v0, 4				#print prompt2
 	la $a0, prompt2
 	syscall
 	li $v0, 5				#get user input
 	syscall
 	beq $v0, $zero, RANDOMIZE		#if input 0 go to randomize label if 1 continue
+	li $t6, 1
+	bne $v0, $t6, ERROR			#if input isn't 1 throw exception
+	# beyond this point assumes user input is 1
 	lw $t0, card_int			#get curent card number
 	addi $t0, $t0, -1			#get current index
 	sll $t0, $t0, 2				#calculate the memory address of value in array(multiply by 4)
@@ -301,6 +305,7 @@ ANSWER:
 	sw $zero, guess_int
 	sw $zero, count_random
 	j CLEAR_SHOWN_ARRAY
+	
 CLEAR_SHOWN_ARRAY:
 	lw $t0, count_random
 	beq $t0, 6, MAIN
@@ -309,9 +314,16 @@ CLEAR_SHOWN_ARRAY:
 	addi $t0, $t0, 1
 	sw $t0, count_random
 	j CLEAR_SHOWN_ARRAY
+	
+ERROR:
+	li $v0, 4
+	la $a0, exception
+	syscall
+	la $a0, newLine
+	syscall
+	j UPDATE_GUESS
 
 EXIT:
 
 li $v0, 10
 syscall
-
